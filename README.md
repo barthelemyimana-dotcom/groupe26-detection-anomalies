@@ -50,7 +50,13 @@ Utilisateur → Interface Streamlit → Génération de données fictives → Mo
 - Une anomalie potentielle ne prouve pas qu'une attaque a eu lieu.
 - HTTPS/TLS protège les communications entre le navigateur et l'application hébergée.
 - Cette version constitue un prototype pédagogique. Les mécanismes de sécurité supplémentaires et les tests devront être documentés selon leur mise en œuvre effective.
+### Vérification de l'intégrité avec SHA-256
 
+L'application calcule une empreinte cryptographique SHA-256 à partir des résultats de l'analyse au format CSV.
+
+Cette empreinte permet de comparer deux versions des résultats et de détecter une modification lorsque le contenu comparé change.
+
+**Limite :** l'empreinte affichée n'est pas une signature numérique et ne garantit pas, à elle seule, l'authenticité des résultats.
  8. Installation locale
 
 Prérequis : Python installé sur l'ordinateur.
