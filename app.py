@@ -41,6 +41,26 @@ if st.button("Analyser le trafic réseau de démonstration"):
         })
 
     df = pd.DataFrame(donnees)
+    # Validation des données avant l'analyse
+    if len(df) != 100:
+        st.error("Erreur : le nombre de flux générés est incorrect.")
+        st.stop()
+
+    if df[["Paquets", "Durée (s)", "Port"]].isnull().any().any():
+        st.error("Erreur : certaines données sont manquantes.")
+        st.stop()
+
+    if (df["Paquets"] <= 0).any():
+        st.error("Erreur : le nombre de paquets doit être positif.")
+        st.stop()
+
+    if (df["Durée (s)"] <= 0).any():
+        st.error("Erreur : la durée doit être positive.")
+        st.stop()
+
+    if not df["Port"].between(1, 65535).all():
+        st.error("Erreur : un port réseau est invalide.")
+        st.stop()
 
     modele = IsolationForest(
         contamination=0.05,
