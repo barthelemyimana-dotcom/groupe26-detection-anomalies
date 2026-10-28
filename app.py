@@ -1,4 +1,4 @@
-
+import hashlib
 import streamlit as st
 import pandas as pd
 import random
@@ -56,7 +56,17 @@ if st.button("Analyser le trafic réseau de démonstration"):
     ]
 
     nombre_anomalies = (df["Résultat IA"] == "Anomalie potentielle").sum()
+    # Calcul de l'empreinte SHA-256 des résultats
+    contenu = df.to_csv(index=False).encode("utf-8")
+    empreinte = hashlib.sha256(contenu).hexdigest()
 
+    st.subheader("Vérification de l'intégrité des résultats")
+    st.write("Empreinte SHA-256 :")
+    st.code(empreinte)
+    st.caption(
+        "Cette empreinte permet de comparer les résultats "
+        "et de repérer une éventuelle modification des données."
+    )
     st.success("Analyse terminée.")
 
     col1, col2, col3 = st.columns(3)
